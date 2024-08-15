@@ -152,11 +152,17 @@ services:
       - "3307:3306"
 ```
 
-jalankan dengan `docker compose up -d` lalu pastikan container sudah running dengan `docker ps`. selanjutnya masuk ke hasura console dan pada bagian Data. disana pilih connect database dan pilih jenisnya, pertama untuk mysql, masukan jdbc url yang dimiliki dengan format `jdbc:mysql://<hostname>:<port>/<database name>?user=<username>&password=<password>` sesuai dengan referensi berikut: 
+selanjutnya masuk ke hasura console dan pada bagian Data. disana pilih connect database dan pilih jenisnya, pertama untuk mysql, masukan jdbc url yang dimiliki dengan format jdbc:mysql://<hostname>:<port>/<database name>?user=<username>&password=<password> sesuai dengan referensi berikut:
 
 https://hasura.io/docs/latest/databases/mysql/docker/#step-5-connect-to-a-mysql-database
 
-Simpan dan database sudah terkoneksi ke hasura. 
+Simpan dan database sudah terkoneksi ke hasura.
+
+Begitupun halnya dengan maria db yang dokumentasinya ada disini: https://hasura.io/docs/latest/databases/mariadb/docker/
+
+Pilih connect database, masukan url jdbc nya dengan format jdbc:mariadb://<hostname>:<port>/<database name>?user=<username>&password=<password> lalu simpan, maka database mariadb sudah terhubung ke hasura. 
+
+![image](https://github.com/user-attachments/assets/ac28a612-e305-4903-abf3-81faba1a5bc2)
 
 
 
