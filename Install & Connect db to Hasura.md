@@ -27,7 +27,7 @@ Hasura dapat dihubungkan ke lebih dari satu database, memungkinkan pengembang un
 Untuk saat ini saya menggunakan source berikut https://hasura.io/docs/latest/deployment/deployment-guides/docker/
 
 **1. Menginstall Pada Docker Compose file**
-Pertama Kita lakukan penginstallan Docker tersebut, dan saya melakukan penginstallan docker di ubuntu 22.04 seperti berikut:
+Pertama Kita lakukan penginstallan Docker tersebut, dan saya melakukan penginstallan docker di ubuntu 22.04 seperti berikut https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-22-04
 ```
 sudo apt install docker-ce
 ```
@@ -97,6 +97,15 @@ $ docker-compose ps
 ```
 
 ![image](https://github.com/user-attachments/assets/8634bd37-2dce-4089-9ec5-17903874aeb6)
+
+ref: https://hasura.io/docs/latest/getting-started/how-it-works/index/
+
+Hasura secara otomatis akan men-generate graphql schema, resolver serta graphql endpoint secara otomatis, hal ini tentunya sangat baik untuk memudahkan penggunanya, namun jika terdapat kasus dimana terdapat kebutuhan bisnis yang mengharuskan untuk membuat graphql endpoint yang berbeda dan diharuskan untuk meminimalisir resource, hasura tidak dapat membuat graphql endpoint lebih dari 1 pada satu instance hasura yang sama, jadi secara otomatis setiap HGE yang di instance, akan mengenerate satu graphql endpoint juga, sebagai perpanjangannya, disarankan untuk instance hasura di port yang berbeda, dan jika tidak ingin instance lebih dari 1, maka dapat menggunakan fitur remote schema ataupun actions.
+untuk melihat logs dapat menjalankan  
+`
+docker logs <id-container>
+`
+![image](https://github.com/user-attachments/assets/ed0721cb-1988-4573-820e-8adaf3e3a285)
 
 
 
