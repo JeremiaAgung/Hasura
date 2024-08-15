@@ -26,7 +26,9 @@ Hasura dapat dihubungkan ke lebih dari satu database, memungkinkan pengembang un
 
 ### Kelebihan Hasura
 **Cepat dan mudah digunakan**: Dengan sedikit konfigurasi, Anda bisa langsung memiliki backend GraphQL yang fungsional.
+
 **Real-time**: Mendukung real-time updates, yang sangat bermanfaat untuk aplikasi modern.
+
 **Skalabilitas**: Hasura dirancang untuk skala besar dan dapat digunakan dalam berbagai skenario produksi.
 Hasura sangat cocok digunakan dalam pengembangan aplikasi modern, terutama ketika Anda ingin membangun aplikasi yang membutuhkan API yang cepat, fleksibel, dan dapat disesuaikan.
 
