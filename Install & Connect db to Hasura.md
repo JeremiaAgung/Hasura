@@ -31,4 +31,73 @@ Pertama Kita lakukan penginstallan Docker tersebut, dan saya melakukan penginsta
 ```
 sudo apt install docker-ce
 ```
+Setelah Docker sudah terinstall maka kita lakukan seperti berikut
+```
+sudo systemctl status docker
+```
+![image](https://github.com/user-attachments/assets/4da30925-a632-4cad-9b98-2f6fb1c323b4)
+Setelah sudah terinstall, Jalankan perintah berikut untuk mengunduh file docker compose dari hasura versi terbaru:
+Pada `docker-compose.yaml` tersebut nantinya berisi kurang lebih seperti berikut:
+
+```
+version: "3.6"
+services:
+  postgres:
+    image: postgres:15
+    restart: always
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: postgrespassword
+  graphql-engine:
+    image: hasura/graphql-engine:v2.40.0
+    ports:
+      - "8080:8080"
+    restart: always
+    environment:
+      ## postgres database to store Hasura metadata
+      HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
+      ## this env var can be used to add the above postgres database to Hasura as a data source. this can be removed/updated based on your needs
+      PG_DATABASE_URL: postgres://postgres:postgrespassword@postgres:5432/postgres
+      ## enable the console served by server
+      HASURA_GRAPHQL_ENABLE_CONSOLE: "true" # set to "false" to disable console
+      ## enable debugging mode. It is recommended to disable this in production
+      HASURA_GRAPHQL_DEV_MODE: "true"
+      HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
+      ## uncomment next line to run console offline (i.e load console assets from server instead of CDN)
+      # HASURA_GRAPHQL_CONSOLE_ASSETS_DIR: /srv/console-assets
+      ## uncomment next line to set an admin secret
+      # HASURA_GRAPHQL_ADMIN_SECRET: myadminsecretkey
+      HASURA_GRAPHQL_METADATA_DEFAULTS: '{"backend_configs":{"dataconnector":{"athena":{"uri":"http://data-connector-agent:8081/api/v1/athena"},"mariadb":{"uri":"http://data-connector-agent:8081/api/v1/mariadb"},"mysql8":{"uri":"http://data-connector-agent:8081/api/v1/mysql"},"oracle":{"uri":"http://data-connector-agent:8081/api/v1/oracle"},"snowflake":{"uri":"http://data-connector-agent:8081/api/v1/snowflake"}}}}'
+    depends_on:
+      data-connector-agent:
+        condition: service_healthy
+  data-connector-agent:
+    image: hasura/graphql-data-connector:v2.40.0
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      QUARKUS_LOG_LEVEL: ERROR # FATAL, ERROR, WARN, INFO, DEBUG, TRACE
+      ## https://quarkus.io/guides/opentelemetry#configuration-reference
+      QUARKUS_OPENTELEMETRY_ENABLED: "false"
+      ## QUARKUS_OPENTELEMETRY_TRACER_EXPORTER_OTLP_ENDPOINT: http://jaeger:4317
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8081/api/v1/athena/health"]
+      interval: 5s
+      timeout: 10s
+      retries: 5
+      start_period: 5s
+volumes:
+  db_data:
+```
+Setelah kita sudah jalankan tampilan log pada docker seperti ini
+```
+$ docker-compose ps
+```
+
+![image](https://github.com/user-attachments/assets/8634bd37-2dce-4089-9ec5-17903874aeb6)
+
+
+
 
