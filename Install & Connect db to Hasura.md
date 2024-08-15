@@ -110,6 +110,45 @@ docker logs <id-container>
 Console hasura dapat diakses dengan contoh `http://192.168.1.105:8080/console/`
 ![image](https://github.com/user-attachments/assets/afafacd4-a879-43d8-a4ba-7a7634a849de)
 
+# Connect database mariadb dan mysql
+
+Untuk menghubungkan hasura ke db mariadb dan mysql pertama tama pastikan untuk membuat instance mariadb dan mysql, disini saya menggunakan docker untuk membuat imagenya dengan configurasi berikut:
+
+```
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_DATABASE: jeremia  
+      MYSQL_USER: jeremia  
+      MYSQL_PASSWORD: jeremia
+      MYSQL_ROOT_PASSWORD: jeremia
+      MYSQL_AUTHENTICATION_PLUGIN: mysql_native_password
+    ports:
+      - "3306:3306"
+
+  mariadb:
+    image: mariadb:latest
+    restart: always
+    environment:
+      MYSQL_DATABASE: jeremia
+      MYSQL_USER: jeremia
+      MYSQL_PASSWORD: jeremia
+      MYSQL_ROOT_PASSWORD: jeremia
+      MYSQL_AUTHENTICATION_PLUGIN: mysql_native_password
+    ports:
+      - "3307:3306"
+```
+
+jalankan dengan `docker compose up -d` lalu pastikan container sudah running dengan `docker ps`. selanjutnya masuk ke hasura console dan pada bagian Data. disana pilih connect database dan pilih jenisnya, pertama untuk mysql, masukan jdbc url yang dimiliki dengan format `jdbc:mysql://<hostname>:<port>/<database name>?user=<username>&password=<password>` sesuai dengan referensi berikut: 
+
+https://hasura.io/docs/latest/databases/mysql/docker/#step-5-connect-to-a-mysql-database
+
+Simpan dan database sudah terkoneksi ke hasura. 
+
 
 
 
