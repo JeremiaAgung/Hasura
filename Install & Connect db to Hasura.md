@@ -4,11 +4,13 @@
 
 **1. GraphQL API Otomatis**
 Hasura secara otomatis menghasilkan GraphQL API berdasarkan skema database yang ada. Setiap tabel, view, dan fungsi yang ada dalam database dapat diekspos sebagai GraphQL query atau mutation tanpa perlu menulis kode API secara manual.
+
 **2. Real-time Updates**
 Hasura mendukung subscription GraphQL, yang memungkinkan klien menerima update real-time dari server setiap kali data diubah dalam database. Ini sangat berguna untuk aplikasi yang memerlukan notifikasi langsung saat data berubah.
 
 **3. Authorization & Authentication**
 Hasura memiliki sistem authorization bawaan yang fleksibel. Pengembang dapat mengonfigurasi aturan akses berbasis role dan menggunakan token JWT (JSON Web Token) untuk mengautentikasi pengguna dan menetapkan izin akses ke data.
+
 **4. Data Federation**
 Hasura dapat digabungkan dengan berbagai layanan dan API lainnya. Ini memungkinkan Anda untuk membuat skema GraphQL terpadu yang dapat mengakses data dari berbagai sumber, termasuk REST API eksternal.
 
