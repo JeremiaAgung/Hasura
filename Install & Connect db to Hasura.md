@@ -22,3 +22,13 @@ Hasura mendukung integrasi dengan berbagai layanan pihak ketiga, seperti serverl
 
 **7. Multi-database Support**
 Hasura dapat dihubungkan ke lebih dari satu database, memungkinkan pengembang untuk mengakses data dari berbagai sumber dalam satu endpoint GraphQL.
+
+### Installasi Hasura via docker
+Untuk saat ini saya menggunakan source berikut https://hasura.io/docs/latest/deployment/deployment-guides/docker/
+
+**1. Menginstall Pada Docker Compose file**
+Pertama Kita lakukan penginstallan Docker tersebut, dan saya melakukan penginstallan docker di ubuntu 22.04 seperti berikut:
+```
+sudo apt install docker-ce
+```
+
