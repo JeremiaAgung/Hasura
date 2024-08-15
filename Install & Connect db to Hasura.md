@@ -1,6 +1,7 @@
 ### HASURA
 
-**Hasura** adalah platform open-source yang menyediakan layanan backend berbasis GraphQL. Hasura memungkinkan pengembang untuk secara cepat dan mudah membangun API GraphQL dari database yang ada tanpa harus menulis kode backend yang rumit. Berikut ini adalah beberapa fitur dan konsep dasar dari Hasura:
+**Hasura** adalah platform open-source yang menyediakan layanan backend berbasis GraphQL. Hasura memungkinkan pengembang untuk secara cepat dan mudah membangun API GraphQL dari database yang ada tanpa harus menulis kode backend yang rumit. 
+Berikut ini adalah beberapa fitur dan konsep dasar dari Hasura:
 
 **1. GraphQL API Otomatis**
 Hasura secara otomatis menghasilkan GraphQL API berdasarkan skema database yang ada. Setiap tabel, view, dan fungsi yang ada dalam database dapat diekspos sebagai GraphQL query atau mutation tanpa perlu menulis kode API secara manual.
@@ -23,8 +24,14 @@ Hasura mendukung integrasi dengan berbagai layanan pihak ketiga, seperti serverl
 **7. Multi-database Support**
 Hasura dapat dihubungkan ke lebih dari satu database, memungkinkan pengembang untuk mengakses data dari berbagai sumber dalam satu endpoint GraphQL.
 
+### Kelebihan Hasura
+**Cepat dan mudah digunakan**: Dengan sedikit konfigurasi, Anda bisa langsung memiliki backend GraphQL yang fungsional.
+**Real-time**: Mendukung real-time updates, yang sangat bermanfaat untuk aplikasi modern.
+**Skalabilitas**: Hasura dirancang untuk skala besar dan dapat digunakan dalam berbagai skenario produksi.
+Hasura sangat cocok digunakan dalam pengembangan aplikasi modern, terutama ketika Anda ingin membangun aplikasi yang membutuhkan API yang cepat, fleksibel, dan dapat disesuaikan.
+
 ### Installasi Hasura via docker
-Untuk saat ini saya menggunakan source berikut https://hasura.io/docs/latest/deployment/deployment-guides/docker/
+Untuk saat ini saya menggunakan source Docker berikut https://hasura.io/docs/latest/deployment/deployment-guides/docker/
 
 **1. Menginstall Pada Docker Compose file**
 Pertama Kita lakukan penginstallan Docker tersebut, dan saya melakukan penginstallan docker di ubuntu 22.04 seperti berikut https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-22-04
