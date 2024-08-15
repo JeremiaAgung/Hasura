@@ -107,6 +107,10 @@ docker logs <id-container>
 `
 ![image](https://github.com/user-attachments/assets/ed0721cb-1988-4573-820e-8adaf3e3a285)
 
+Console hasura dapat diakses dengan contoh `http://192.168.1.105:8080/console/`
+![image](https://github.com/user-attachments/assets/afafacd4-a879-43d8-a4ba-7a7634a849de)
+
+
 
 
 
