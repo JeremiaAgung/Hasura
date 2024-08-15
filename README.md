@@ -1,4 +1,4 @@
-###HASURA
+##HASURA
 Hasura adalah platform open-source yang menyediakan layanan backend berbasis GraphQL. Hasura memungkinkan pengembang untuk secara cepat dan mudah membangun API GraphQL dari database yang ada tanpa harus menulis kode backend yang rumit. Berikut ini adalah beberapa fitur dan konsep dasar dari Hasura:
 
 1. GraphQL API Otomatis Hasura secara otomatis menghasilkan GraphQL API berdasarkan skema database yang ada. Setiap tabel, view, dan fungsi yang ada dalam database dapat diekspos sebagai GraphQL query atau mutation tanpa perlu menulis kode API secara manual. 2. Real-time Updates Hasura mendukung subscription GraphQL, yang memungkinkan klien menerima update real-time dari server setiap kali data diubah dalam database. Ini sangat berguna untuk aplikasi yang memerlukan notifikasi langsung saat data berubah.
