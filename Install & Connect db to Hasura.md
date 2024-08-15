@@ -131,10 +131,10 @@ services:
     image: mysql:latest
     restart: always
     environment:
-      MYSQL_DATABASE: jeremia  
-      MYSQL_USER: jeremia  
-      MYSQL_PASSWORD: jeremia
-      MYSQL_ROOT_PASSWORD: jeremia
+      MYSQL_DATABASE: mysqldb  
+      MYSQL_USER: mysql  
+      MYSQL_PASSWORD: mysql
+      MYSQL_ROOT_PASSWORD: mysql
       MYSQL_AUTHENTICATION_PLUGIN: mysql_native_password
     ports:
       - "3306:3306"
@@ -143,10 +143,10 @@ services:
     image: mariadb:latest
     restart: always
     environment:
-      MYSQL_DATABASE: jeremia
-      MYSQL_USER: jeremia
-      MYSQL_PASSWORD: jeremia
-      MYSQL_ROOT_PASSWORD: jeremia
+      MYSQL_DATABASE: mariadb
+      MYSQL_USER: mariadb
+      MYSQL_PASSWORD: mariadb
+      MYSQL_ROOT_PASSWORD: mariadb
       MYSQL_AUTHENTICATION_PLUGIN: mysql_native_password
     ports:
       - "3307:3306"
