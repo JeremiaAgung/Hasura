@@ -10,7 +10,7 @@ Untuk membuat relasi antar tabel dalam GraphQL dengan Hasura, perlu mendefinisik
 
 # object relationships (one-to-one)
 adalah hanya satu dari masing- masing entity yang saling berhubungan atau berelasi.
-
+```
 query MyQuery {
   product_details {
     id
@@ -25,7 +25,7 @@ query MyQuery {
     stock
   }
 }
-
+```
 ![image](https://github.com/user-attachments/assets/ed65b462-c51d-49a2-8aba-528369af1c2f)
 
 # array relationships (one-to-many)
