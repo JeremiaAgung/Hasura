@@ -30,3 +30,23 @@ query MyQuery {
 
 # array relationships (one-to-many)
 One-to-many terjadi ketika setiap entitas memiliki banyak hubungan dengan entitas lain, satu-ke-banyak. 
+```
+query MyQuery {
+  product_details {
+    id
+    product_id
+    manufacturer
+    description
+  }
+  products {
+    id
+    name
+    price
+    stock
+  }
+}
+```
+![image](https://github.com/user-attachments/assets/456ea540-2dfe-41e5-8fd1-db1ba23a6880)
+![image](https://github.com/user-attachments/assets/1cfc3e34-a4df-4f51-b79d-9fad0b21c2c0)
+
+
