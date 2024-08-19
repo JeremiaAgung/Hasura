@@ -1,6 +1,6 @@
 # CRUD di graphQL
 
-pada kesempatan kali ini, saya akan mencoba melakukan CRUD pada 1 tabel yang ada di hasura graphql. Pada graphql hasura, perubahan pada database seperti lebih umum dikenal dengan CRUD digunakan dengan menggunakan mutation atau mutasi.
+CRUD (Create, Read, Update, Delete) adalah operasi dasar yang dapat dilakukan pada tabel di Hasura. Berikut adalah penjelasan mengenai masing-masing operasi tersebut dalam konteks Hasura:
 
 sumber: [Mutation](https://hasura.io/docs/latest/mutations/overview/)
 
