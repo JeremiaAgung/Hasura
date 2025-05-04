@@ -1,40 +1,33 @@
+Kubernetes: Memahami Ingress, Load Balancer, dan Service Account untuk Hasura
+ 
+Dokumen ini menjelaskan tiga konsep penting dalam Kubernetes—Ingress, Load Balancer, dan Service Account—dengan fokus pada penerapannya untuk Hasura (GraphQL Engine). Catatan ini mencakup definisi, fungsi, contoh konfigurasi, dan praktik terbaik untuk menjalankan Hasura di lingkungan Kubernetes.
+Daftar Isi
+
 1. Ingress
+2. Load Balancer
+3. Service Account
+Hubungan dengan Hasura
+Praktik Terbaik
+Referensi
 
+1. Ingress
 Definisi
+Ingress adalah objek API Kubernetes yang mengelola akses eksternal ke layanan (services) dalam klaster, terutama untuk jaringan HTTP/Julian untuk mempermudah pencarian dan pembagian konten yang relevan di platform berbasis komunitas seperti GitHub.
+Fungsi Utama:
 
-Ingress adalah objek API di Kubernetes yang mengatur akses eksternal ke layanan (services) di dalam klaster, terutama untuk jaringan HTTP/HTTPS. Ingress menyediakan aturan untuk merutekan jaringan berdasarkan hostname atau jalur URL ke layanan tertentu.
-
-Fungsi Utama
-
-
-
-Rute Jaringan: Mengarahkan jaringan eksternal ke layanan berdasarkan aturan (misalnya, /graphql ke layanan Hasura).
-
-
-Load Balancing: Mendistribusikan jaringan ke beberapa pod untuk memastikan ketersediaan tinggi.
-
-
-SSL/TLS Termination: Menangani enkripsi/dekripsi HTTPS di level Ingress.
-
-
-Virtual Hosting: Memungkinkan banyak domain/subdomain diarahkan dari satu IP publik.
+Rute Jaringan: Mengarahkan jaringan eksternal ke layanan berdasarkan hostname atau jalur URL (misalnya, /v1/graphql ke layanan Hasura).
+Load Balancing: Mendistribusikan jaringan ke pod yang sehat untuk ketersediaan tinggi.
+SSL/TLS Termination: Menangani enkripsi HTTPS di level Ingress.
+Virtual Hosting: Mendukung banyak domain/subdomain melalui satu IP publik.
 
 Dalam Konteks Hasura
 
+Hasura diekspos melalui Ingress untuk menangani permintaan HTTP/HTTPS dari klien eksternal.
+Contoh: Ingress dapat mengarahkan graphql.example.com/v1/graphql ke layanan Hasura.
+Ingress Controller seperti NGINX atau Traefik diperlukan untuk memproses aturan Ingress. Penyedia cloud seperti AWS ALB juga dapat digunakan.
+Konfigurasi harus mendukung WebSocket untuk subscription GraphQL dan header besar.
 
-Hasura diekspos melalui Ingress untuk menerima permintaan HTTP/HTTPS dari klien eksternal.
-
-Contoh: Ingress dapat merutekan permintaan ke graphql.example.com/v1/graphql ke layanan Hasura.
-
-Diperlukan Ingress Controller (misalnya, NGINX, Traefik) untuk memproses aturan Ingress. Anda dapat menggunakan ingress-nginx atau controller dari penyedia cloud seperti AWS ALB.
-
-
-Konfigurasi Ingress untuk Hasura harus mendukung WebSocket (untuk subscription GraphQL) dan menangani header besar.
-
-Contoh Konfigurasi Ingress
-
-Berikut adalah contoh YAML untuk Ingress yang mengarahkan jaringan ke layanan Hasura:
-
+Contoh Konfigurasi
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -61,38 +54,26 @@ spec:
 
 Catatan
 
-Pastikan Ingress Controller sudah terpasang di klaster.
-
-Aktifkan dukungan WebSocket dengan anotasi khusus (misalnya, websocket-services untuk NGINX).
-
-Gunakan sertifikat TLS untuk mengamankan jaringan HTTPS.
+Pastikan Ingress Controller terpasang (misalnya, ingress-nginx).
+Aktifkan dukungan WebSocket melalui anotasi (contoh: websocket-services untuk NGINX).
+Gunakan sertifikat TLS untuk HTTPS.
 
 2. Load Balancer
-
 Definisi
+Load Balancer adalah tipe layanan Kubernetes yang mengekspos layanan ke eksternal melalui load balancer infrastruktur (misalnya, AWS ELB, GCP Load Balancer). Beroperasi pada lapisan 4 (TCP/UDP) atau lapisan 7 (HTTP/HTTPS).
+Fungsi Utama:
 
-Load Balancer adalah tipe layanan (Service) di Kubernetes yang mengekspos layanan ke dunia eksternal melalui load balancer yang dikelola oleh penyedia infrastruktur (misalnya, AWS ELB, GCP Load Balancer). Beroperasi pada lapisan 4 (TCP/UDP) atau lapisan 7 (HTTP/HTTPS, tergantung implementasi).
-
-Fungsi Utama
-
-Ekspos Eksternal: Memberikan alamat IP publik yang stabil untuk mengakses layanan.
-
-Distribusi Jaringan: Mengarahkan jaringan ke pod yang sehat di belakang layanan.
-
-Skalabilitas: Otomatis menangani peningkatan jaringan dengan mendistribusikan ke pod tambahan.
+Ekspos Eksternal: Menyediakan IP publik untuk akses layanan.
+Distribusi Jaringan: Mengarahkan jaringan ke pod yang sehat.
+Skalabilitas: Menangani peningkatan jaringan dengan distribusi ke pod tambahan.
 
 Dalam Konteks Hasura
 
-Load Balancer dapat digunakan untuk mengekspos layanan Hasura langsung ke internet, terutama jika Ingress tidak diperlukan atau untuk protokol non-HTTP.
+Digunakan untuk mengekspos Hasura langsung ke internet tanpa Ingress, cocok untuk protokol non-HTTP atau kasus sederhana.
+Contoh: Layanan LoadBalancer memberikan IP eksternal untuk Hasura.
+Peringatan: Setiap layanan LoadBalancer membuat load balancer baru, yang bisa mahal. Ingress dengan satu Load Balancer lebih hemat biaya.
 
-Contoh: Layanan Hasura dengan tipe LoadBalancer memberikan IP eksternal langsung.
-
-Peringatan: Menggunakan Load Balancer untuk setiap layanan bisa mahal karena setiap layanan membuat load balancer baru di penyedia cloud. Untuk Hasura, lebih efisien menggunakan Ingress dengan satu Load Balancer untuk banyak layanan.
-
-Contoh Konfigurasi Load Balancer
-
-Berikut adalah contoh YAML untuk layanan Hasura dengan tipe Load Balancer:
-
+Contoh Konfigurasi
 apiVersion: v1
 kind: Service
 metadata:
@@ -108,42 +89,29 @@ spec:
 
 Catatan
 
-Load Balancer cocok untuk kasus sederhana atau ketika rute berbasis URL tidak diperlukan.
-
-Kombinasikan dengan Ingress untuk efisiensi biaya dan fleksibilitas rute.
+Cocok untuk eksposur langsung tanpa rute URL kompleks.
+Kombinasikan dengan Ingress untuk efisiensi biaya.
 
 3. Service Account
-
 Definisi
+Service Account adalah identitas Kubernetes untuk proses atau aplikasi (bukan pengguna manusia) guna berinteraksi dengan API Kubernetes atau sumber daya lainnya.
+Fungsi Utama:
 
-Service Account adalah identitas di Kubernetes yang digunakan oleh proses atau aplikasi (bukan pengguna manusia) untuk berinteraksi dengan API Kubernetes atau sumber daya lainnya di dalam klaster.
-
-Fungsi Utama
-
-
-Otentikasi: Memberikan identitas untuk pod atau aplikasi agar dapat mengakses API Kubernetes.
-
-Otorisasi: Mengontrol izin melalui Role-Based Access Control (RBAC) untuk mengakses sumber daya tertentu.
-
-Integrasi Eksternal: Digunakan untuk mengautentikasi aplikasi ke layanan eksternal (misalnya, database, cloud services).
+Otentikasi: Memberikan identitas untuk pod atau aplikasi.
+Otorisasi: Mengontrol akses melalui Role-Based Access Control (RBAC).
+Integrasi Eksternal: Mengautentikasi ke layanan eksternal (misalnya, database).
 
 Dalam Konteks Hasura
 
-Hasura berjalan sebagai pod di Kubernetes dan sering memerlukan Service Account untuk:
+Hasura memerlukan Service Account untuk:
+Akses Metadata Kubernetes: Untuk auto-discovery layanan.
+Integrasi Cloud: Mengakses database eksternal (misalnya, AWS RDS).
+Keamanan RBAC: Membatasi akses ke sumber daya seperti Secret atau ConfigMap.
 
-Mengakses Metadata Kubernetes: Misalnya, untuk auto-discovery layanan.
 
+Contoh: Service Account untuk membaca Secret berisi kredensial database Hasura.
 
-Integrasi dengan Cloud: Jika Hasura mengakses database eksternal (seperti AWS RDS), Service Account dengan izin tertentu diperlukan.
-
-RBAC untuk Keamanan: Service Account dibatasi hanya untuk mengakses sumber daya yang diperlukan (misalnya, ConfigMap atau Secret).
-
-Contoh: Service Account untuk Hasura dapat dikonfigurasi untuk membaca Secret yang menyimpan kredensial database.
-
-Contoh Konfigurasi Service Account dan RBAC
-
-Berikut adalah contoh YAML untuk Service Account, Role, RoleBinding, dan Deployment Hasura:
-
+Contoh Konfigurasi
 # Service Account
 apiVersion: v1
 kind: ServiceAccount
@@ -177,7 +145,7 @@ roleRef:
   name: hasura-role
   apiGroup: rbac.authorization.k8s.io
 
-# Deployment menggunakan Service Account
+# Deployment
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -206,15 +174,30 @@ spec:
 
 Catatan
 
-Pastikan Secret atau ConfigMap (misalnya, untuk koneksi database) tersedia dan dapat diakses oleh Service Account.
-
-Terapkan prinsip least privilege untuk membatasi izin Service Account hanya pada yang diperlukan.
+Pastikan Secret/ConfigMap tersedia untuk Hasura (misalnya, kredensial database).
+Gunakan least privilege untuk izin Service Account.
 
 Hubungan dengan Hasura
 
-Ingress: Merutekan jaringan HTTP/HTTPS ke endpoint Hasura (/v1/graphql, /console, dll.) dengan dukungan WebSocket untuk subscription.
+Ingress: Merutekan jaringan HTTP/HTTPS ke endpoint Hasura (/v1/graphql, /console) dengan dukungan WebSocket.
+Load Balancer: Alternatif eksposur langsung, tetapi lebih mahal; sering dikombinasikan dengan Ingress.
+Service Account: Mengamankan pod Hasura dengan izin untuk sumber daya Kubernetes atau layanan eksternal.
 
-Load Balancer: Alternatif untuk eksposur langsung Hasura ke eksternal, tetapi lebih mahal; biasanya digunakan bersama Ingress.
+Praktik Terbaik
+
+Gunakan Ingress dengan satu Load Balancer untuk hemat biaya dan dukungan WebSocket.
+Konfigurasikan Service Account dengan izin minimal.
+Pastikan Ingress Controller mendukung WebSocket (misalnya, NGINX dengan anotasi).
+Simpan kredensial sensitif (misalnya, HASURA_GRAPHQL_ADMIN_SECRET) di Secret.
+Uji WebSocket untuk subscription GraphQL.
+
+Referensi
+
+Kubernetes: Ingress
+Kubernetes: Service
+Kubernetes: Service Account
+Hasura: Kubernetes Deployment
 
 
-Service Account: Mengamankan pod Hasura dengan identitas dan izin untuk mengakses sumber daya Kubernetes atau layanan eksternal seperti database.
+KontribusiSilakan buka issue atau pull request untuk pertanyaan atau perbaikan. Kontributor dihargai!
+LisensiMIT License
